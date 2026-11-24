@@ -99,9 +99,9 @@ int main() {
 
 
         // Display all books
-        // if(choice == 2) {
-        //     library.displayBooks();
-        // }
+        if(choice == 2) {
+            library.displayBooks();
+        }
 
 
         // Search for a book

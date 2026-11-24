@@ -34,10 +34,21 @@ void Library::addBook(Book book) {
 
 
 // Display all books
-// void Library::displayBooks() {
+void Library::displayBooks() const {
 
-    
-// }
+    std::string choice;
+
+    // Looping through the book collection
+    for (const auto& element : this->bookCollection) {
+
+        element.second.display();
+        std::cout << "\n";
+
+    }
+
+    std::cout << "Enter any key to exit:" << "\n";
+    std::cin >> choice;
+}
 
 
 

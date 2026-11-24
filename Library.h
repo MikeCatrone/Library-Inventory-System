@@ -36,7 +36,7 @@
 
 
             // Show all books
-            // void displayBooks() const;
+            void displayBooks() const;
 
 
             // Search all books
