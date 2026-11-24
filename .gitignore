@@ -1,0 +1,3 @@
+# Exclude all .exe and .file files
+*.exe
+*.file
