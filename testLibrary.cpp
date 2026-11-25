@@ -118,11 +118,12 @@ int main() {
 
 
         // Remove a book
-        // if(choice == 5) {
-        //     library.removeBook();
+        if(choice == 5) {
+            library.removeBook();
             
-        // }
+        }
 
+        
         // Remove a book
         // if(choice == 6) {
         //     library.stats();

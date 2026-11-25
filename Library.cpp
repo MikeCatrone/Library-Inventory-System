@@ -55,7 +55,7 @@ void Library::displayBooks() const {
 
 
 
-// Search Book
+// Search a Book
 void Library::searchBook() {
 
     std::string choice;
@@ -86,6 +86,7 @@ void Library::searchBook() {
             std::cout << "Book Found!" << "\n";
             std::cout << "Book Keys: " << it->first << "\n";
             std::cout << "Book Title: " << it->second.getTitle() << "\n \n";
+
         } else {
             std::cout << "Sorry, book not found" << "\n";
         }
@@ -107,8 +108,9 @@ void Library::searchBook() {
         
         if (it != this->bookCollection.end()) {
             std::cout << "BookFound!" << "\n";
-            std::cout << "Book Keys: " << it->first << "\n";
+            std::cout << "Book Key: " << it->first << "\n";
             std::cout << "Book Title: " << it->second.getTitle() << "\n \n";
+
         } else {
             std::cout << "Sorry, book not found" << "\n";
         }
@@ -131,7 +133,8 @@ void Library::searchBook() {
 // Edit a Book
 void Library::editBook() {
     std::string targetIsbn = "";
-    std::cout << "\nEnter the ISBN of the book to edit:\n";
+
+    std::cout << "\nEnter the ISBN of the book to edit:" << "\n";
     std::cin >> targetIsbn;
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
@@ -167,6 +170,8 @@ void Library::editBook() {
 
 
     switch (fieldChoice) {
+
+        // Edit Isbn
         case 1: {
             std::string newIsbn = "";
 
@@ -176,13 +181,16 @@ void Library::editBook() {
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
             Book updatedBook = it->second;
-
             updatedBook.setIsbn(newIsbn);
+
             this->bookCollection.erase(it);
             this->bookCollection.emplace(newIsbn, updatedBook);
+            
             std::cout << "ISBN updated." << "\n";
             break;
         }
+
+        // Edit Title
         case 2: {
             std::string newTitle = "";
 
@@ -192,6 +200,8 @@ void Library::editBook() {
             std::cout << "Title updated." << "\n";
             break;
         }
+
+        // Edit Author
         case 3: {
             std::string newAuthor = "";
 
@@ -201,6 +211,8 @@ void Library::editBook() {
             std::cout << "Author updated." << "\n";
             break;
         }
+
+        // Edit Year
         case 4: {
             int newYear = 0;
 
@@ -211,6 +223,8 @@ void Library::editBook() {
             std::cout << "Year updated." << "\n";
             break;
         }
+
+        // Edit Genre
         case 5: {
             std::string newGenre = "";
 
@@ -220,6 +234,8 @@ void Library::editBook() {
             std::cout << "Genre updated." << "\n";
             break;
         }
+
+        // Edit Rating
         case 6: {
             int newRating = 0;
 
@@ -230,6 +246,8 @@ void Library::editBook() {
             std::cout << "Rating updated." << "\n";
             break;
         }
+
+        // Exits
         case 7:
             std::cout << "Returning to the main menu." << "\n";
             break;
@@ -246,10 +264,31 @@ void Library::editBook() {
 
 
 // Remove Book by Key (ISBN)
-// void Library::removeBook() {
-    
+void Library::removeBook() {
+    std::string targetKey = "";
 
-// }
+    std::cout << "\nEnter the ISBN (key) of the book to remove:" << "\n";
+
+    std::cin >> targetKey;
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+    auto it = std::find_if(this->bookCollection.begin(), this->bookCollection.end(),
+        [&targetKey](const auto &entry) {
+            return entry.first == targetKey;
+        }
+    );
+
+
+    if (it != this->bookCollection.end()) {
+        std::cout << "\nRemoving "<< it->second.getTitle() << " ISBN: " << it->first << "\n";
+        this->bookCollection.erase(it);
+        std::cout << "Book removed from the library." << "\n";
+
+    } else {
+        std::cout << "\nSorry, no book was found with key " << targetKey << "\n";
+    }
+
+}
 
 
 

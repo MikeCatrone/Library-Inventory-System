@@ -48,7 +48,7 @@
 
             
             // Remove a book
-            // void removeBook();
+            void removeBook();
 
 
             // Average Stats
