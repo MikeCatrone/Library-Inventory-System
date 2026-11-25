@@ -40,12 +40,13 @@
 
 
             // Search all books
-            // void searchBook();
+            void searchBook();
 
 
             // Edit a book
-            // void editBook();
+            void editBook();
 
+            
             // Remove a book
             // void removeBook();
 

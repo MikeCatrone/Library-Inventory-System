@@ -105,16 +105,16 @@ int main() {
 
 
         // Search for a book
-        // if(choice == 3) {
-        //     library.searchBook();
-        // }
+        if(choice == 3) {
+            library.searchBook();
+        }
 
 
         // Edit a book
-        // if(choice == 4) {
-        //     library.editBook();
+        if(choice == 4) {
+            library.editBook();
 
-        // }
+        }
 
 
         // Remove a book

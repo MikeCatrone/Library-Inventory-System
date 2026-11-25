@@ -4,6 +4,7 @@
 
 #include <algorithm>
 #include <iostream>
+#include <limits>
 #include <string>
 
 
@@ -55,19 +56,192 @@ void Library::displayBooks() const {
 
 
 // Search Book
-// void Library::searchBook() {
+void Library::searchBook() {
 
+    std::string choice;
+    std::string value;
     
-// }
+
+    std::cout << "Choose a search option" << "\n";
+    std::cout << "==========================" << "\n \n";
+    std::cout << "1. ISBN" << "\n";
+    std::cout << "2. Title" << "\n";
+    std::cout << "3. Exit" << "\n";
+    std::cin >> choice;
+
+
+    // If choice 1, search by ISBN
+    if(choice == "1") {
+        std::cout << "Enter an ISBN: " << "\n";
+        std::cin >> value;
+        std::cout << "\n";
+
+        auto it = std::find_if(this->bookCollection.begin(), this->bookCollection.end(),
+            [&value](auto &n) {
+                return n.first == value;
+            }
+        );
+
+        if (it != this->bookCollection.end()) {
+            std::cout << "Book Found!" << "\n";
+            std::cout << "Book Keys: " << it->first << "\n";
+            std::cout << "Book Title: " << it->second.getTitle() << "\n \n";
+        } else {
+            std::cout << "Sorry, book not found" << "\n";
+        }
+
+
+
+    // If choice 2, search by Title
+    } else if(choice == "2") {
+        std::cout << "Enter a Title: " << "\n";
+        std::getline(std::cin >> std::ws, value);
+        std::cout << "\n";
+
+        auto it = std::find_if(this->bookCollection.begin(), this->bookCollection.end(),
+            [&value](auto &n) {
+                return n.second.getTitle() == value;
+            }
+        );
+
+        
+        if (it != this->bookCollection.end()) {
+            std::cout << "BookFound!" << "\n";
+            std::cout << "Book Keys: " << it->first << "\n";
+            std::cout << "Book Title: " << it->second.getTitle() << "\n \n";
+        } else {
+            std::cout << "Sorry, book not found" << "\n";
+        }
+
+
+    }else if(choice == "3") {
+        return;
+    }
+
+
+    std::cout << "Enter any key to exit:" << "\n";
+    std::cin >> choice;
+
+    return;
+}
 
 
 
 
 // Edit a Book
-// void Library::editBook() {
-   
- 
-// }
+void Library::editBook() {
+    std::string targetIsbn = "";
+    std::cout << "\nEnter the ISBN of the book to edit:\n";
+    std::cin >> targetIsbn;
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+
+    auto it = std::find_if(this->bookCollection.begin(), this->bookCollection.end(),
+        [&targetIsbn](const auto &entry) {
+            return entry.first == targetIsbn;
+        }
+    );
+
+
+    if (it == this->bookCollection.end()) {
+        std::cout << "No book found with ISBN: " << targetIsbn << "\n";
+        return;
+    }
+
+
+    int fieldChoice = 0;
+
+    std::cout << "\nEditing " << it->second.getTitle() << " (ISBN: " << it->first << ")\n";
+    std::cout << "What field do you want to edit?" << "\n";
+    std::cout << "1. ISBN " << "\n";
+    std::cout << "2. Title " << "\n";
+    std::cout << "3. Author " << "\n";
+    std::cout << "4. Year " << "\n";
+    std::cout << "5. Genre " << "\n";
+    std::cout << "6. Rating " << "\n";
+    std::cout << "7. Cancel and go back " << "\n";
+    std::cout << "Enter choice: ";
+
+    std::cin >> fieldChoice;
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+
+    switch (fieldChoice) {
+        case 1: {
+            std::string newIsbn = "";
+
+            std::cout << "Enter a new ISBN: " << "\n";
+            std::cin >> newIsbn;
+
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+            Book updatedBook = it->second;
+
+            updatedBook.setIsbn(newIsbn);
+            this->bookCollection.erase(it);
+            this->bookCollection.emplace(newIsbn, updatedBook);
+            std::cout << "ISBN updated." << "\n";
+            break;
+        }
+        case 2: {
+            std::string newTitle = "";
+
+            std::cout << "Enter a new Title:" << "\n";
+            std::getline(std::cin, newTitle);
+            it->second.setTitle(newTitle);
+            std::cout << "Title updated." << "\n";
+            break;
+        }
+        case 3: {
+            std::string newAuthor = "";
+
+            std::cout << "Enter a new Author:" << "\n";
+            std::getline(std::cin, newAuthor);
+            it->second.setAuthor(newAuthor);
+            std::cout << "Author updated." << "\n";
+            break;
+        }
+        case 4: {
+            int newYear = 0;
+
+            std::cout << "Enter a new Year:" << "\n";
+            std::cin >> newYear;
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            it->second.setYear(newYear);
+            std::cout << "Year updated." << "\n";
+            break;
+        }
+        case 5: {
+            std::string newGenre = "";
+
+            std::cout << "Enter a new Genre:" << "\n";
+            std::getline(std::cin, newGenre);
+            it->second.setGenre(newGenre);
+            std::cout << "Genre updated." << "\n";
+            break;
+        }
+        case 6: {
+            int newRating = 0;
+
+            std::cout << "Enter a new Rating:" << "\n";
+            std::cin >> newRating;
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            it->second.setRating(newRating);
+            std::cout << "Rating updated." << "\n";
+            break;
+        }
+        case 7:
+            std::cout << "Returning to the main menu." << "\n";
+            break;
+
+        default:
+            std::cout << "Invalid input." << "\n";
+            break;
+
+    }
+    
+
+}
 
 
 
