@@ -125,10 +125,10 @@ int main() {
 
         
         // Remove a book
-        // if(choice == 6) {
-        //     library.stats();
+        if(choice == 6) {
+            library.stats();
             
-        // }
+        }
 
         
     }
