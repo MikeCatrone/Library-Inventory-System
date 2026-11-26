@@ -312,11 +312,46 @@ void Library::stats() {
 
 
 
+     // Average publication year (all the years divided by the number of years)
+    int totalYears = 0;
+    int yearCount = 0;
+
+    std::for_each(
+        this->bookCollection.begin(),
+        this->bookCollection.end(),
+        [&totalYears, &yearCount](const std::pair<const std::string, Book> &entry) {
+            totalYears += entry.second.getYear();
+            yearCount++;
+        }
+    );
+
+
+    // Using static_cast to help prevent integer division bugs
+    double averageYear = static_cast<double>(totalYears) / yearCount;
+
+
+    
+    // Highest-rated book
+    const auto bestRated = std::max_element(this->bookCollection.begin(),this->bookCollection.end(),
+        [](const std::pair<const std::string, Book> &a,
+           const std::pair<const std::string, Book> &b) {
+            return a.second.getRating() < b.second.getRating();
+        }
+    );
+
+
+
     // Output Response
     std::cout << "\nBook Statistics" << "\n";
     std::cout << "=======================" << "\n \n";
 
-    std::cout << "Total number of books: " << totalBooks << "\n \n";
+    std::cout << "Total number of books: " << totalBooks << "\n";
+    std::cout << "Average publication year: " << averageYear << "\n";
+
+    if (bestRated != this->bookCollection.end()) {
+        std::cout << "Highest-rated book: " << bestRated->second.getTitle() << " (Rating: " << bestRated->second.getRating() << ")\n";
+    }
+
     std::cout << "Enter any key to go back." << "\n";
     std::cin >> exitKey;
 
