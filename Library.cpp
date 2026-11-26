@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <iostream>
 #include <limits>
+#include <set>
 #include <string>
 
 
@@ -312,7 +313,7 @@ void Library::stats() {
 
 
 
-     // Average publication year (all the years divided by the number of years)
+    // Average publication year
     int totalYears = 0;
     int yearCount = 0;
 
@@ -325,12 +326,10 @@ void Library::stats() {
         }
     );
 
-
-    // Using static_cast to help prevent integer division bugs
-    double averageYear = static_cast<double>(totalYears) / yearCount;
+    int averageYear = totalYears / yearCount;
 
 
-    
+
     // Highest-rated book
     const auto bestRated = std::max_element(this->bookCollection.begin(),this->bookCollection.end(),
         [](const std::pair<const std::string, Book> &a,
@@ -341,6 +340,17 @@ void Library::stats() {
 
 
 
+     // Count of books by genre
+    std::set<std::string> genres;
+
+    std::for_each(this->bookCollection.begin(),this->bookCollection.end(),
+        [&genres](const std::pair<const std::string, Book> &entry) {
+            genres.insert(entry.second.getGenre());
+        }
+    );
+    
+
+
     // Output Response
     std::cout << "\nBook Statistics" << "\n";
     std::cout << "=======================" << "\n \n";
@@ -348,11 +358,27 @@ void Library::stats() {
     std::cout << "Total number of books: " << totalBooks << "\n";
     std::cout << "Average publication year: " << averageYear << "\n";
 
+    // Highest Rated
     if (bestRated != this->bookCollection.end()) {
         std::cout << "Highest-rated book: " << bestRated->second.getTitle() << " (Rating: " << bestRated->second.getRating() << ")\n";
     }
 
-    std::cout << "Enter any key to go back." << "\n";
+    // Genres
+    std::cout << "Books by genre:\n";
+    for (const auto &genre : genres) {
+
+        const auto genreCount = std::count_if(this->bookCollection.begin(), this->bookCollection.end(),
+            [&genre](const std::pair<const std::string, Book> &entry) {
+                return entry.second.getGenre() == genre;
+            }
+        );
+
+        std::cout << "  - " << genre << ": " << genreCount << "\n";
+    }
+
+
+    // Exit prompt
+    std::cout << "\nEnter any key to go back." << "\n";
     std::cin >> exitKey;
 
 
